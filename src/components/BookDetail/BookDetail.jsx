@@ -1,4 +1,5 @@
 import { useLoaderData, useParams } from "react-router-dom";
+import { addToStoredReadList } from "../../Utility/addToDb";
 
 const BookDetail = () => {
   const { bookId } = useParams();
@@ -7,6 +8,10 @@ const BookDetail = () => {
   const id = parseInt(bookId);
   const book = data.find((book) => book.bookId === id);
   const { bookId: currentBookId, image, bookName, author, review, category } = book;
+
+  const handleMarkAsRead = (id) => {
+    addToStoredReadList(id)
+  }
   return (
     <div className="flex">
       <div className="w-1/2">
@@ -21,7 +26,7 @@ const BookDetail = () => {
             <hr />
             <p>Review: {review}</p>
         </div>
-        <button className="btn mr-6 btn-accent btn-outline">Read</button>
+        <button onClick={() => handleMarkAsRead(id)} className="btn mr-6 btn-accent btn-outline">Read</button>
         <button className="btn btn-accent ">WhishList</button>
       </div>
     </div>
@@ -29,3 +34,14 @@ const BookDetail = () => {
 };
 
 export default BookDetail;
+
+// things before to handle and store data:
+/**
+     * 1. Understand what to store or save: => bookId
+     * 2. where to store: Database
+     * 3. Array, list, collection:
+     * 4. Check: if the book is already in the readlist.
+     * 5. if not, then add the book to the list
+     * 6. if yes, do not add the book
+     */
+
